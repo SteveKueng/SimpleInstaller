@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5640DDAE1F791812004E68C1 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640DDAD1F791812004E68C1 /* Utilities.swift */; };
+		5640DDB01F7A44FF004E68C1 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640DDAF1F7A44FF004E68C1 /* MainWindowController.swift */; };
 		565325271F739A000005B324 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325261F739A000005B324 /* AppDelegate.swift */; };
-		565325291F739A000005B324 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325281F739A000005B324 /* ViewController.swift */; };
-		5653252B1F739A000005B324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5653252A1F739A000005B324 /* Assets.xcassets */; };
+		565325291F739A000005B324 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325281F739A000005B324 /* MainViewController.swift */; };
 		5653252E1F739A000005B324 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5653252C1F739A000005B324 /* Main.storyboard */; };
 		5653253A1F739A000005B324 /* SimpleInstallerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325391F739A000005B324 /* SimpleInstallerTests.swift */; };
 		565325451F739A000005B324 /* SimpleInstallerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325441F739A000005B324 /* SimpleInstallerUITests.swift */; };
+		565325541F739F580005B324 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325521F739F580005B324 /* LoadingViewController.swift */; };
+		565325591F73B1470005B324 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325581F73B1470005B324 /* MainPageController.swift */; };
+		5680C0D01F7A6CD00082BDC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5680C0CF1F7A6CD00082BDC1 /* Assets.xcassets */; };
+		56D4346E1F76560E000988BE /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D4346D1F76560E000988BE /* Preferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,10 +38,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5640DDAD1F791812004E68C1 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		5640DDAF1F7A44FF004E68C1 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		565325231F739A000005B324 /* SimpleInstaller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleInstaller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		565325261F739A000005B324 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		565325281F739A000005B324 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5653252A1F739A000005B324 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		565325281F739A000005B324 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5653252D1F739A000005B324 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5653252F1F739A000005B324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		565325301F739A000005B324 /* SimpleInstaller.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleInstaller.entitlements; sourceTree = "<group>"; };
@@ -46,6 +52,10 @@
 		565325401F739A000005B324 /* SimpleInstallerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleInstallerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		565325441F739A000005B324 /* SimpleInstallerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInstallerUITests.swift; sourceTree = "<group>"; };
 		565325461F739A000005B324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		565325521F739F580005B324 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		565325581F73B1470005B324 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
+		5680C0CF1F7A6CD00082BDC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		56D4346D1F76560E000988BE /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +107,16 @@
 			isa = PBXGroup;
 			children = (
 				565325261F739A000005B324 /* AppDelegate.swift */,
-				565325281F739A000005B324 /* ViewController.swift */,
-				5653252A1F739A000005B324 /* Assets.xcassets */,
+				5640DDAF1F7A44FF004E68C1 /* MainWindowController.swift */,
+				565325581F73B1470005B324 /* MainPageController.swift */,
+				565325281F739A000005B324 /* MainViewController.swift */,
+				565325521F739F580005B324 /* LoadingViewController.swift */,
+				5640DDAD1F791812004E68C1 /* Utilities.swift */,
+				56D4346D1F76560E000988BE /* Preferences.swift */,
 				5653252C1F739A000005B324 /* Main.storyboard */,
 				5653252F1F739A000005B324 /* Info.plist */,
 				565325301F739A000005B324 /* SimpleInstaller.entitlements */,
+				5680C0CF1F7A6CD00082BDC1 /* Assets.xcassets */,
 			);
 			path = SimpleInstaller;
 			sourceTree = "<group>";
@@ -193,6 +208,11 @@
 					565325221F739A000005B324 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					565325341F739A000005B324 = {
 						CreatedOnToolsVersion = 9.0;
@@ -231,7 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5653252B1F739A000005B324 /* Assets.xcassets in Resources */,
+				5680C0D01F7A6CD00082BDC1 /* Assets.xcassets in Resources */,
 				5653252E1F739A000005B324 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,7 +277,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				565325291F739A000005B324 /* ViewController.swift in Sources */,
+				5640DDAE1F791812004E68C1 /* Utilities.swift in Sources */,
+				5640DDB01F7A44FF004E68C1 /* MainWindowController.swift in Sources */,
+				565325541F739F580005B324 /* LoadingViewController.swift in Sources */,
+				565325591F73B1470005B324 /* MainPageController.swift in Sources */,
+				56D4346E1F76560E000988BE /* Preferences.swift in Sources */,
+				565325291F739A000005B324 /* MainViewController.swift in Sources */,
 				565325271F739A000005B324 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,13 +440,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SimpleInstaller/SimpleInstaller.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GGNTTFQF3Z;
+				DEVELOPMENT_TEAM = T8Z934872M;
 				INFOPLIST_FILE = SimpleInstaller/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SimpleInstaller;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.stevekueng.SimpleInstaller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -431,13 +455,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SimpleInstaller/SimpleInstaller.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GGNTTFQF3Z;
+				DEVELOPMENT_TEAM = T8Z934872M;
 				INFOPLIST_FILE = SimpleInstaller/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SimpleInstaller;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.stevekueng.SimpleInstaller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -450,7 +473,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GGNTTFQF3Z;
+				DEVELOPMENT_TEAM = T8Z934872M;
 				INFOPLIST_FILE = SimpleInstallerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SimpleInstallerTests;
@@ -467,7 +490,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GGNTTFQF3Z;
+				DEVELOPMENT_TEAM = T8Z934872M;
 				INFOPLIST_FILE = SimpleInstallerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SimpleInstallerTests;
@@ -483,7 +506,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GGNTTFQF3Z;
+				DEVELOPMENT_TEAM = T8Z934872M;
 				INFOPLIST_FILE = SimpleInstallerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SimpleInstallerUITests;
@@ -499,7 +522,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GGNTTFQF3Z;
+				DEVELOPMENT_TEAM = T8Z934872M;
 				INFOPLIST_FILE = SimpleInstallerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.srgssr.SimpleInstallerUITests;

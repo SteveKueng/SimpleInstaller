@@ -8,12 +8,18 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
-
+class MainViewController: NSViewController {
+    @IBOutlet weak var progressBar: NSProgressIndicator!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        //Utilities().startInstallation(progressBar: progressBar)
+        Utilities().runWorkflow(Name: "Install OS X", progressBar: progressBar)
     }
 
     override var representedObject: Any? {
@@ -21,7 +27,4 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
-
 }
-
