@@ -12,6 +12,7 @@ class MainWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        self.window?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     }
 

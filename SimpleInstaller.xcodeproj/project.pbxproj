@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		562CB3521F84B71500D98B50 /* ptyexec in Resources */ = {isa = PBXBuildFile; fileRef = 562CB3511F84B71500D98B50 /* ptyexec */; };
+		562CB3551F84F80800D98B50 /* testInstall.sh in Resources */ = {isa = PBXBuildFile; fileRef = 562CB3541F84F80800D98B50 /* testInstall.sh */; };
 		5640DDAE1F791812004E68C1 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640DDAD1F791812004E68C1 /* Utilities.swift */; };
 		5640DDB01F7A44FF004E68C1 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5640DDAF1F7A44FF004E68C1 /* MainWindowController.swift */; };
 		565325271F739A000005B324 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325261F739A000005B324 /* AppDelegate.swift */; };
@@ -18,6 +20,8 @@
 		565325591F73B1470005B324 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565325581F73B1470005B324 /* MainPageController.swift */; };
 		5680C0D01F7A6CD00082BDC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5680C0CF1F7A6CD00082BDC1 /* Assets.xcassets */; };
 		56D4346E1F76560E000988BE /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D4346D1F76560E000988BE /* Preferences.swift */; };
+		56D59AC01F865B4C00625C0D /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D59ABF1F865B4C00625C0D /* Log.swift */; };
+		56F47E781F83B75300BFAE3A /* BackgroundWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F47E771F83B75300BFAE3A /* BackgroundWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		562CB3511F84B71500D98B50 /* ptyexec */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = ptyexec; sourceTree = "<group>"; };
+		562CB3541F84F80800D98B50 /* testInstall.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = testInstall.sh; sourceTree = "<group>"; };
 		5640DDAD1F791812004E68C1 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		5640DDAF1F7A44FF004E68C1 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		565325231F739A000005B324 /* SimpleInstaller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleInstaller.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +62,8 @@
 		565325581F73B1470005B324 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		5680C0CF1F7A6CD00082BDC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		56D4346D1F76560E000988BE /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		56D59ABF1F865B4C00625C0D /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		56F47E771F83B75300BFAE3A /* BackgroundWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundWindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		562CB3531F84B72100D98B50 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				562CB3511F84B71500D98B50 /* ptyexec */,
+				562CB3541F84F80800D98B50 /* testInstall.sh */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		5653251A1F739A000005B324 = {
 			isa = PBXGroup;
 			children = (
@@ -106,13 +123,16 @@
 		565325251F739A000005B324 /* SimpleInstaller */ = {
 			isa = PBXGroup;
 			children = (
+				562CB3531F84B72100D98B50 /* Helper */,
 				565325261F739A000005B324 /* AppDelegate.swift */,
+				56F47E771F83B75300BFAE3A /* BackgroundWindowController.swift */,
 				5640DDAF1F7A44FF004E68C1 /* MainWindowController.swift */,
 				565325581F73B1470005B324 /* MainPageController.swift */,
 				565325281F739A000005B324 /* MainViewController.swift */,
 				565325521F739F580005B324 /* LoadingViewController.swift */,
-				5640DDAD1F791812004E68C1 /* Utilities.swift */,
 				56D4346D1F76560E000988BE /* Preferences.swift */,
+				5640DDAD1F791812004E68C1 /* Utilities.swift */,
+				56D59ABF1F865B4C00625C0D /* Log.swift */,
 				5653252C1F739A000005B324 /* Main.storyboard */,
 				5653252F1F739A000005B324 /* Info.plist */,
 				565325301F739A000005B324 /* SimpleInstaller.entitlements */,
@@ -251,7 +271,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				562CB3521F84B71500D98B50 /* ptyexec in Resources */,
 				5680C0D01F7A6CD00082BDC1 /* Assets.xcassets in Resources */,
+				562CB3551F84F80800D98B50 /* testInstall.sh in Resources */,
 				5653252E1F739A000005B324 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,10 +301,12 @@
 			files = (
 				5640DDAE1F791812004E68C1 /* Utilities.swift in Sources */,
 				5640DDB01F7A44FF004E68C1 /* MainWindowController.swift in Sources */,
+				56D59AC01F865B4C00625C0D /* Log.swift in Sources */,
 				565325541F739F580005B324 /* LoadingViewController.swift in Sources */,
 				565325591F73B1470005B324 /* MainPageController.swift in Sources */,
 				56D4346E1F76560E000988BE /* Preferences.swift in Sources */,
 				565325291F739A000005B324 /* MainViewController.swift in Sources */,
+				56F47E781F83B75300BFAE3A /* BackgroundWindowController.swift in Sources */,
 				565325271F739A000005B324 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

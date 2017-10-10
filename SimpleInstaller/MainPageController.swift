@@ -17,6 +17,7 @@ class MainPageController: NSPageController, NSPageControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSApp.activate(ignoringOtherApps: true)
         
         delegate = self
         self.arrangedObjects = myViewArray
@@ -24,13 +25,9 @@ class MainPageController: NSPageController, NSPageControllerDelegate {
         NSApplication.shared.mainWindow?.isMovable = false
         
         DispatchQueue.global(qos: .userInitiated).async {
-            var next = false
-            repeat {
-                next = Utilities().loadConfig()
-                
-                
-            } while(next == false)
-            self.navigateForward(self)
+            if Utilities().loadConfig() {
+                self.navigateForward(self)
+            }
         }
     }
     

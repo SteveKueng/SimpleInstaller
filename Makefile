@@ -2,7 +2,7 @@
 # User configurable variables below
 #################################################
 
-URL="http://192.168.100.102/install/config.plist"
+URL="http://172.16.39.1:8080/install/config.plist"
 REPORTURL=none
 APP="/Applications/Install macOS High Sierra.app"
 OUTPUT=~/Desktop
@@ -17,6 +17,9 @@ INDEX="5001"
 SYSLOG=none
 TMPMOUNT="/private/tmp/mount"
 STARTTERMINAL=False
+ADDITIONALHEADERKEY="Authorization"
+ADDITIONALHEADERVALUE="Basic TUVESUFcc3ZjLWdkLW1haW5yZXBvOmE2NFQ9OHFobmZ5djVZUGtuUg=="
+
 
 -include config.mk
 
@@ -62,6 +65,10 @@ ifneq ($(REPORTURL),none)
 endif
 ifneq ($(SYSLOG),none)
 	/usr/libexec/PlistBuddy -c 'Add :syslog string "$(SYSLOG)"' com.github.stevekueng.simpleinstaller.plist
+endif
+ifneq ($(ADDITIONALHEADERKEY),none)
+	/usr/libexec/PlistBuddy -c 'Add :additional_headers dict' com.github.stevekueng.simpleinstaller.plist
+	/usr/libexec/PlistBuddy -c 'Add :additional_headers:"$(ADDITIONALHEADERKEY)" string "$(ADDITIONALHEADERVALUE)"' com.github.stevekueng.simpleinstaller.plist
 endif
 
 deps: autonbi foundation

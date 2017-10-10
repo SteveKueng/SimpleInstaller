@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-var workflows: Array<Dictionary<String, Any>>?
+var workflows: Array<Dictionary<String, Any>>? = nil
 
 class Utilities {
     
@@ -36,24 +36,8 @@ class Utilities {
         return alert
     }
     
-    func runWorkflow(Name: String, progressBar: NSProgressIndicator) {
-        if let workflow = findWorkflow(Name: Name) {
-            if let installer = getInstaller(workflow: workflow) {
-                startInstallation(installer: installer, progressBar: progressBar)
-            } else {
-                //installer not found
-                print("installer not found!")
-            }
-        } else {
-            //workflow not found
-            print("workflow not found!")
-        }
-    }
-    
     func findWorkflow(Name: String) -> Dictionary<String,Any>? {
-        if workflows == nil {
-            //no workflows found
-        } else {
+        if workflows != nil {
             for workflow in workflows! {
                 if workflow["name"] as? String == Name {
                     return workflow
@@ -63,60 +47,81 @@ class Utilities {
         return nil
     }
     
-    func getInstaller(workflow: Dictionary<String,Any>) -> String? {
-        if let components = workflow["components"] as? Array<Dictionary<String,Any>>{
-            for component in components {
-                if ((component["type"] as? String) == "installer") {
-                    return component["url"] as? String
-                }
-            }
-        } else {
-            //components not found
-            print("components not found!")
-        }
-        return nil
-    }
-    
-    func mound(dmg: String) -> String {
-        //hdiutil attach -plist https://MEDIA\\svc-gd-mainrepo:a64T=8qhnfyv5YPknR@munki.srgssr.ch/pkgs/OS/Apple/HighSierra/Install\ macOS\ High\ Sierra-10.13.dmg
+    func run(command: String, arguments: Array<String>) -> Dictionary<String,Any>? {
         let process = Process()
-        process.launchPath = "/usr/bin/hdiutil"
-        process.arguments = ["attach", "-plist", dmg]
+        process.launchPath = command
+        process.arguments = arguments
         
         let pipe = Pipe()
         process.standardOutput = pipe
         process.launch()
         
-        var output_from_command = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8)!
-        
-        // remove the trailing new-line char
-        if output_from_command.characters.count > 0 {
-            let lastIndex = output_from_command.index(before: output_from_command.endIndex)
-            output_from_command = String(output_from_command[output_from_command.startIndex ..< lastIndex])
-        }
-        
-        //get mountpoint from dictionary
-        
-        
+        let output_from_command = try? PropertyListSerialization.propertyList(from: pipe.fileHandleForReading.readDataToEndOfFile(), options: [], format: nil) as! Dictionary<String,Any>
         return output_from_command
     }
     
-    func startInstallation(installer: String, progressBar: NSProgressIndicator) {
+    func mount(dmg: String) -> String? {
+        if let output_from_command = run(command: "/usr/bin/hdiutil", arguments: ["attach", "-plist", dmg]) {
+            let systemEntities = output_from_command["system-entities"] as! Array<Dictionary<String,Any>>
+            for entities in systemEntities {
+                if let mountPoint = entities["mount-point"] {
+                    return String(describing: mountPoint)
+                }
+            }
+        }
+        return nil
+    }
+    
+    func diskutil(verb: String, arguments: Array<String>) -> Bool {
+        let process = Process()
+        process.launchPath = "/usr/sbin/diskutil"
+        process.arguments = [verb] + arguments
+        process.launch()
+        process.waitUntilExit()
+        return process.terminationStatus == 0
+        
+    }
+    
+    func eraseDisk(disk: String, name: String, format: String) -> String? {
+        sleep(3)
+        
+        _ = self.diskutil(verb: "unmountDisk", arguments: [disk])
+        if self.diskutil(verb: "eraseDisk", arguments: [format, name, disk]) {
+            return "/Volumes/"+name
+        }
+        return nil
+    }
+    
+    func startInstallation(installer: String, progressBar: NSProgressIndicator, label: NSTextField, percentLabel: NSTextField, target: String) {
+        let command = Bundle.main.resourcePath! + "/ptyexec"
         let task = Process()
-        task.launchPath = "/bin/sh"
-        task.arguments = ["-c", "echo \"Preparing 20.404040...\"; sleep 3; echo \"Preparing 23.545915...\"; sleep 2; echo \"Preparing 30.567894...\"; sleep 5; echo \"Preparing 90.404040...\"; sleep 3; echo \"Preparing 100.000000...\""]
-        //task.arguments = [""]
+        task.launchPath = command
+        
+        #if DEBUG
+            task.arguments = ["/bin/sh", Bundle.main.resourcePath! + "/testInstall.sh"]
+        #else
+            task.arguments = [installer + "/Contents/Resources/startosinstall", "--applicationpath", installer, "--agreetolicense", "--rebootdelay", "300", "--pidtosignal", String(getpid()), "--volume", target]
+        #endif
         
         let pipe = Pipe()
         task.standardOutput = pipe
         let outHandle = pipe.fileHandleForReading
-        
         outHandle.readabilityHandler = { pipe in
             if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
                 if line != "" {
-                    if let number = Double(self.matches(for: "\\d+.\\d+", in: line)[0]) {
+                    let matches = self.matches(for: "\\d+.\\d+", in: line)
+                    if matches.count > 0 {
+                        for match in matches {
+                            if let number = Double(match) {
+                                DispatchQueue.main.async {
+                                    progressBar.doubleValue = number
+                                    percentLabel.stringValue = String(format: "%.0f", number) + "%"
+                                }
+                            }
+                        }
+                    } else {
                         DispatchQueue.main.async {
-                           progressBar.doubleValue = number
+                            label.stringValue = line
                         }
                     }
                 }
@@ -130,9 +135,10 @@ class Utilities {
     func matches(for regex: String, in text: String) -> [String] {
         do {
             let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
+            let results = regex.matches(in: text,
+                                        range: NSRange(text.startIndex..., in: text))
             return results.map {
-                text.substring(with: Range($0.range, in: text)!)
+                String(text[Range($0.range, in: text)!])
             }
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
@@ -143,14 +149,15 @@ class Utilities {
     // load config
     func loadConfig() -> Bool {
         var answer = false
-        let group = DispatchGroup()
-        group.enter()
         let url = Preferences().get_config_settings(preference_key: "serverurl")
-        let (plist, errorMessage, errorDetail) = Preferences().loadPlist(url: url as! String)
+        let additional_headers = Preferences().get_config_settings(preference_key: "additional_headers")
+        let (plist, errorMessage, errorDetail) = Preferences().loadPlist(url: url as! String, additionalHeaders: additional_headers as! Dictionary<String, String>)
         if plist != nil {
             workflows = plist!["workflows"] as? Array<Dictionary<String, Any>>
             answer = true
         } else {
+            let group = DispatchGroup()
+            group.enter()
             DispatchQueue.main.async {
                 let alert = self.errorDialog(error: errorMessage!, detail: errorDetail)
                 alert.beginSheetModal(for: NSApplication.shared.mainWindow!, completionHandler: { (modalResponse) -> Void in
@@ -163,5 +170,46 @@ class Utilities {
             group.wait()
         }
         return answer
+    }
+    
+    func setStartupDiskAtPath(path: String) -> Bool {
+        let task = Process()
+        task.launchPath = "/usr/sbin/bless"
+        task.arguments = [ "--mount", path, "--setBoot" ]
+        task.launch()
+        task.waitUntilExit()
+        return task.terminationStatus == 0
+    }
+    
+    func finishInstallation() {
+        self.trap() { signal in
+            _ = Utilities().terminateStartosinstall()
+            sleep(3)
+            //Utilities().reboot()
+            //NSApp.terminate(nil)
+        }
+        print("wait for SIGUSR1...")
+        sigsuspend(nil)
+    }
+    
+    func trap(action: @convention(c) (Int32) -> ()) {
+        // From Swift, sigaction.init() collides with the Darwin.sigaction() function.
+        // This local typealias allows us to disambiguate them.
+        typealias SignalAction = sigaction
+        
+        var signalAction = SignalAction(__sigaction_u: unsafeBitCast(action, to: __sigaction_u.self), sa_mask: 0, sa_flags: 0)
+        
+        withUnsafePointer(to: &signalAction) { actionPointer in
+            sigaction(30, actionPointer, nil)
+        }
+    }
+    
+    func terminateStartosinstall() -> Bool {
+        let task = Process()
+        task.launchPath = "/usr/bin/killall"
+        task.arguments = [ "-SIGUSR1", "startosinstall" ]
+        task.launch()
+        task.waitUntilExit()
+        return task.terminationStatus == 0
     }
 }

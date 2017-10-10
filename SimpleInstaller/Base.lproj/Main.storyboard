@@ -743,15 +743,40 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="mac" id="F53-R5-sBg"/>
                             </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uCI-VW-ksC">
+                                <rect key="frame" x="154" y="128" width="451" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="mtV-3X-3we">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xqV-Qw-HjM">
+                                <rect key="frame" x="606" y="128" width="37" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="DhL-vt-9pG">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="IXu-8h-3Ir">
+                                <rect key="frame" x="297" y="284" width="32" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="percentLabel" destination="xqV-Qw-HjM" id="HMg-fA-icA"/>
+                        <outlet property="processLabel" destination="uCI-VW-ksC" id="UIX-vl-Inz"/>
                         <outlet property="progressBar" destination="g4f-VN-QTa" id="yST-3a-yhC"/>
+                        <outlet property="progressCirc" destination="IXu-8h-3Ir" id="f6F-e4-aiO"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="775" y="766"/>
+            <point key="canvasLocation" x="774.5" y="766"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="J0z-IE-CFE">
@@ -775,8 +800,58 @@
             </objects>
             <point key="canvasLocation" x="-288" y="982"/>
         </scene>
+        <!--Background view-->
+        <scene sceneID="ayN-GD-yNP">
+            <objects>
+                <viewController title="Background view" id="cEk-eg-sr8" sceneMemberID="viewController">
+                    <view key="view" wantsLayer="YES" id="Udt-04-mk4">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eX3-G5-gUa">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="Sierra 2" id="zrG-c9-c7P"/>
+                            </imageView>
+                            <visualEffectView hidden="YES" wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="dark" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="LA8-pE-uPN">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                            </visualEffectView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="LA8-pE-uPN" secondAttribute="trailing" id="5Xt-Ch-aPy"/>
+                            <constraint firstItem="LA8-pE-uPN" firstAttribute="leading" secondItem="Udt-04-mk4" secondAttribute="leading" id="X9q-Ef-wPX"/>
+                            <constraint firstItem="LA8-pE-uPN" firstAttribute="top" secondItem="Udt-04-mk4" secondAttribute="top" id="c0I-uc-DXD"/>
+                            <constraint firstAttribute="bottom" secondItem="LA8-pE-uPN" secondAttribute="bottom" id="qLB-hZ-bUq"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="f8k-AI-dfc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="12" y="-564"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="H9h-w5-NDd">
+            <objects>
+                <windowController storyboardIdentifier="backgroundWindow" id="9fR-WB-9cT" customClass="BackgroundWindowController" customModule="SimpleInstaller" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hasShadow="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="3qF-bx-DmT">
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="294" y="313" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="3440" height="1418"/>
+                        <connections>
+                            <outlet property="delegate" destination="9fR-WB-9cT" id="UQS-A6-Zwn"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="cEk-eg-sr8" kind="relationship" relationship="window.shadowedContentViewController" id="G2Y-bx-w46"/>
+                    </connections>
+                </windowController>
+                <customObject id="KWD-sV-b6e" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-653" y="-564"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="Sierra 2" width="5120" height="2880"/>
         <image name="mac" width="1259" height="879"/>
     </resources>
 </document>
