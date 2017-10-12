@@ -1,7 +1,7 @@
 # SimpleInstaller
 
 SimpleInstaller is an application designed to be run from a NetInstall environment created with AutoNBI. 
-It runs an macOS High Sierra installer dmg (created with munkiimport) directly from munki repo or another web server.  
+It runs a macOS High Sierra installer dmg (created with munkiimport) directly from munki repo or another web server.  
 
 
   
