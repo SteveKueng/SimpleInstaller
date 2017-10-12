@@ -9,33 +9,33 @@
 import Cocoa
 
 class MainPageController: NSPageController, NSPageControllerDelegate {
-
-    var myViewArray = ["one", "two"]
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
+    
+    var myViewArray = ["loading", "workflow", "main"]
     
     @IBOutlet weak var nextButton: NSButton!
     @IBOutlet weak var backButton: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSApp.activate(ignoringOtherApps: true)
         
+        appDelegate.mainPageController = self
         delegate = self
         self.arrangedObjects = myViewArray
         self.transitionStyle = .horizontalStrip
-        NSApplication.shared.mainWindow?.isMovable = false
         
         DispatchQueue.global(qos: .userInitiated).async {
-            if Utilities().loadConfig() {
-                self.navigateForward(self)
-            }
+            Utilities().loadConfig()
         }
     }
     
     func pageController(_ pageController: NSPageController, viewControllerForIdentifier identifier: NSPageController.ObjectIdentifier) -> NSViewController {
         switch identifier._rawValue{
-        case "one":
+        case "loading":
             return NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle:nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "LoadingViewController")) as! NSViewController
-        case "two":
+        case "workflow":
+            return NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle:nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "WorkflowViewController")) as! NSViewController
+        case "main":
             return NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle:nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MainViewController")) as! NSViewController
         default:
             return self.storyboard?.instantiateController(withIdentifier: identifier._rawValue as NSStoryboard.SceneIdentifier) as! NSViewController
@@ -53,6 +53,5 @@ class MainPageController: NSPageController, NSPageControllerDelegate {
     override func scrollWheel(with event: NSEvent) {
         //override trackpad swipe
     }
-    
 }
 

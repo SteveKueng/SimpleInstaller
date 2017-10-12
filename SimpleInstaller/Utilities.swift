@@ -9,9 +9,8 @@
 import Foundation
 import Cocoa
 
-var workflows: Array<Dictionary<String, Any>>? = nil
-
 class Utilities {
+    let appDelegate = NSApplication.shared.delegate as! AppDelegate
     
     func reboot() {
         let process = Process()
@@ -26,19 +25,30 @@ class Utilities {
     }
     
     //display error
-    func errorDialog(error: String, detail: String?) -> NSAlert {
+    func errorDialog(error: String, detail: String?) {
         let alert = NSAlert()
         alert.messageText = error
         alert.informativeText = detail ?? ""
         alert.alertStyle = .critical
         alert.addButton(withTitle: "reload")
         alert.addButton(withTitle: "restart")
-        return alert
+        
+        DispatchQueue.main.async {
+            alert.beginSheetModal(for: self.appDelegate.mainWindowController.window!, completionHandler: { (modalResponse) -> Void in
+                if modalResponse != NSApplication.ModalResponse.alertFirstButtonReturn {
+                    self.reboot()
+                } else {
+                    let mainPC = self.appDelegate.mainPageController
+                    mainPC?.navigateForward(to: "loading")
+                    self.loadConfig()
+                }
+            })
+        }
     }
     
     func findWorkflow(Name: String) -> Dictionary<String,Any>? {
-        if workflows != nil {
-            for workflow in workflows! {
+        if appDelegate.workflows != nil {
+            for workflow in appDelegate.workflows! {
                 if workflow["name"] as? String == Name {
                     return workflow
                 }
@@ -72,22 +82,13 @@ class Utilities {
         return nil
     }
     
-    func diskutil(verb: String, arguments: Array<String>) -> Bool {
-        let process = Process()
-        process.launchPath = "/usr/sbin/diskutil"
-        process.arguments = [verb] + arguments
-        process.launch()
-        process.waitUntilExit()
-        return process.terminationStatus == 0
-        
-    }
-    
-    func eraseDisk(disk: String, name: String, format: String) -> String? {
-        sleep(3)
-        
-        _ = self.diskutil(verb: "unmountDisk", arguments: [disk])
-        if self.diskutil(verb: "eraseDisk", arguments: [format, name, disk]) {
-            return "/Volumes/"+name
+    func getInstallerApp(path: String) -> String? {
+        let fileNames = try! FileManager.default.contentsOfDirectory(atPath: path)
+        for fileName in fileNames {
+            if fileName.hasSuffix("app") {
+                print(fileName)
+                return path + "/" + fileName
+            }
         }
         return nil
     }
@@ -130,6 +131,46 @@ class Utilities {
             }
         }
         task.launch()
+        appDelegate.processID = task.processIdentifier
+    }
+    
+    func runWorkflow() {
+        let mainVC = appDelegate.mainViewController!
+        var volume: String?
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let workflow = self.findWorkflow(Name: self.appDelegate.workflow!) {
+                print(workflow)
+                for component in workflow["components"] as! Array<Dictionary<String,Any>> {
+                    print(component)
+                    switch component["type"] as! String {
+                    case "eraseDisk"  :
+                        volume = disk().eraseDisk(disk: self.appDelegate.target!, name: "Macintosh HD", format: "APFS")
+                    case "installer"  :
+                        if let mountpoint = self.mount(dmg: component["url"] as! String) {
+                            if let installerApp = self.getInstallerApp(path: mountpoint) {
+                                DispatchQueue.main.async {
+                                    mainVC.processLabel.stringValue = ""
+                                    mainVC.progressCirc.stopAnimation(self)
+                                    mainVC.progressBar.doubleValue = 1.0
+                                }
+                                self.startInstallation(installer: installerApp, progressBar: mainVC.progressBar, label: mainVC.processLabel, percentLabel: mainVC.percentLabel, target: volume!)
+                                self.finishInstallation()
+                            } else {
+                                self.errorDialog(error: "could not find installer", detail: mountpoint)
+                            }
+                        } else {
+                            self.errorDialog(error: "could not mount installer", detail: component["url"] as? String)
+                        }
+                    default :
+                        print("type unkown!")
+                    }
+                }
+            } else {
+                //workflow not found
+                self.errorDialog(error: "workflow not found!", detail: self.appDelegate.workflow!)
+            }
+        }
     }
     
     func matches(for regex: String, in text: String) -> [String] {
@@ -147,44 +188,22 @@ class Utilities {
     }
     
     // load config
-    func loadConfig() -> Bool {
-        var answer = false
+    func loadConfig() {
         let url = Preferences().get_config_settings(preference_key: "serverurl")
         let additional_headers = Preferences().get_config_settings(preference_key: "additional_headers")
         let (plist, errorMessage, errorDetail) = Preferences().loadPlist(url: url as! String, additionalHeaders: additional_headers as! Dictionary<String, String>)
         if plist != nil {
-            workflows = plist!["workflows"] as? Array<Dictionary<String, Any>>
-            answer = true
+            appDelegate.workflows = plist!["workflows"] as? Array<Dictionary<String, Any>>
+            appDelegate.disks = disk().getDisks()
+            appDelegate.mainPageController.navigateForward(appDelegate.mainPageController)
         } else {
-            let group = DispatchGroup()
-            group.enter()
-            DispatchQueue.main.async {
-                let alert = self.errorDialog(error: errorMessage!, detail: errorDetail)
-                alert.beginSheetModal(for: NSApplication.shared.mainWindow!, completionHandler: { (modalResponse) -> Void in
-                    if modalResponse != NSApplication.ModalResponse.alertFirstButtonReturn {
-                        Utilities().reboot()
-                    }
-                })
-                group.leave()
-            }
-            group.wait()
+            errorDialog(error: errorMessage!, detail: errorDetail)
         }
-        return answer
-    }
-    
-    func setStartupDiskAtPath(path: String) -> Bool {
-        let task = Process()
-        task.launchPath = "/usr/sbin/bless"
-        task.arguments = [ "--mount", path, "--setBoot" ]
-        task.launch()
-        task.waitUntilExit()
-        return task.terminationStatus == 0
-    }
+    }    
     
     func finishInstallation() {
         self.trap() { signal in
             _ = Utilities().terminateStartosinstall()
-            sleep(3)
             //Utilities().reboot()
             //NSApp.terminate(nil)
         }
@@ -206,8 +225,8 @@ class Utilities {
     
     func terminateStartosinstall() -> Bool {
         let task = Process()
-        task.launchPath = "/usr/bin/killall"
-        task.arguments = [ "-SIGUSR1", "startosinstall" ]
+        task.launchPath = "/bin/kill"
+        task.arguments = [ "-SIGUSR1", String(appDelegate.processID)]
         task.launch()
         task.waitUntilExit()
         return task.terminationStatus == 0

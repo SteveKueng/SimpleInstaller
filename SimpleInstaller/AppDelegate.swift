@@ -12,8 +12,18 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     var backgroundController: BackgroundWindowController!
+    var mainPageController: MainPageController!
+    var mainWindowController: MainWindowController!
+    var mainViewController: MainViewController!
+    
+    var workflow: String?
+    var target: String?
+    var workflows: Array<Dictionary<String, Any>>? = nil
+    var disks: Array<String>? = nil
+    var processID: Int32 = 0
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NSApp.activate(ignoringOtherApps: true)
         
         #if !DEBUG
             let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
