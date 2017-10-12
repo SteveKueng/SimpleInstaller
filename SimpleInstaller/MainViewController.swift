@@ -15,7 +15,6 @@ class MainViewController: NSViewController {
     @IBOutlet weak var progressBar: NSProgressIndicator!
     @IBOutlet weak var progressCirc: NSProgressIndicator!
     @IBOutlet weak var processLabel: NSTextField!
-    @IBOutlet weak var percentLabel: NSTextField!
     
     
     override func viewDidLoad() {

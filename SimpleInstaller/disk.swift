@@ -54,13 +54,4 @@ class disk {
         }
         return disks
     }
-    
-    func setStartupDiskAtPath(path: String) -> Bool {
-        let task = Process()
-        task.launchPath = "/usr/sbin/bless"
-        task.arguments = [ "--mount", path, "--setBoot" ]
-        task.launch()
-        task.waitUntilExit()
-        return task.terminationStatus == 0
-    }
 }

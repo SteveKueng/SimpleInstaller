@@ -49,7 +49,6 @@ class Preferences {
             config.requestCachePolicy = .reloadIgnoringLocalCacheData
             config.urlCache = nil
             config.httpAdditionalHeaders = additionalHeaders
-            print(additionalHeaders)
             let session = URLSession.init(configuration: config)
             let dataTask = session.dataTask(with: url) {
                 data = $0

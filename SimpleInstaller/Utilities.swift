@@ -86,14 +86,13 @@ class Utilities {
         let fileNames = try! FileManager.default.contentsOfDirectory(atPath: path)
         for fileName in fileNames {
             if fileName.hasSuffix("app") {
-                print(fileName)
                 return path + "/" + fileName
             }
         }
         return nil
     }
     
-    func startInstallation(installer: String, progressBar: NSProgressIndicator, label: NSTextField, percentLabel: NSTextField, target: String) {
+    func startInstallation(installer: String, progressBar: NSProgressIndicator, label: NSTextField, target: String) {
         let command = Bundle.main.resourcePath! + "/ptyexec"
         let task = Process()
         task.launchPath = command
@@ -101,7 +100,7 @@ class Utilities {
         #if DEBUG
             task.arguments = ["/bin/sh", Bundle.main.resourcePath! + "/testInstall.sh"]
         #else
-            task.arguments = [installer + "/Contents/Resources/startosinstall", "--applicationpath", installer, "--agreetolicense", "--rebootdelay", "300", "--pidtosignal", String(getpid()), "--volume", target]
+            task.arguments = [installer + "/Contents/Resources/startosinstall", "--applicationpath", installer, "--agreetolicense", "--rebootdelay", "10", "--pidtosignal", String(getpid()), "--volume", target]
         #endif
         
         let pipe = Pipe()
@@ -110,17 +109,17 @@ class Utilities {
         outHandle.readabilityHandler = { pipe in
             if let line = String(data: pipe.availableData, encoding: String.Encoding.utf8) {
                 if line != "" {
-                    let matches = self.matches(for: "\\d+.\\d+", in: line)
-                    if matches.count > 0 {
-                        for match in matches {
-                            if let number = Double(match) {
-                                DispatchQueue.main.async {
-                                    progressBar.doubleValue = number
-                                    percentLabel.stringValue = String(format: "%.0f", number) + "%"
+                    if line.starts(with: "By") != true {
+                        let matches = self.matches(for: "\\d+.\\d+", in: line)
+                        if matches.count > 0 {
+                            for match in matches {
+                                if let number = Double(match) {
+                                    DispatchQueue.main.async {
+                                        progressBar.doubleValue = number
+                                    }
                                 }
                             }
                         }
-                    } else {
                         DispatchQueue.main.async {
                             label.stringValue = line
                         }
@@ -140,9 +139,7 @@ class Utilities {
         
         DispatchQueue.global(qos: .userInitiated).async {
             if let workflow = self.findWorkflow(Name: self.appDelegate.workflow!) {
-                print(workflow)
                 for component in workflow["components"] as! Array<Dictionary<String,Any>> {
-                    print(component)
                     switch component["type"] as! String {
                     case "eraseDisk"  :
                         volume = disk().eraseDisk(disk: self.appDelegate.target!, name: "Macintosh HD", format: "APFS")
@@ -154,8 +151,8 @@ class Utilities {
                                     mainVC.progressCirc.stopAnimation(self)
                                     mainVC.progressBar.doubleValue = 1.0
                                 }
-                                self.startInstallation(installer: installerApp, progressBar: mainVC.progressBar, label: mainVC.processLabel, percentLabel: mainVC.percentLabel, target: volume!)
-                                self.finishInstallation()
+                                self.startInstallation(installer: installerApp, progressBar: mainVC.progressBar, label: mainVC.processLabel, target: volume!)
+                                self.waitForSIGUSR1()
                             } else {
                                 self.errorDialog(error: "could not find installer", detail: mountpoint)
                             }
@@ -201,14 +198,23 @@ class Utilities {
         }
     }    
     
-    func finishInstallation() {
+    func waitForSIGUSR1() {
         self.trap() { signal in
-            _ = Utilities().terminateStartosinstall()
-            //Utilities().reboot()
-            //NSApp.terminate(nil)
+            Utilities().finishInstallation()
         }
         print("wait for SIGUSR1...")
         sigsuspend(nil)
+    }
+    
+    func finishInstallation() {
+        let mainVC = appDelegate.mainViewController!
+        //_ = self.terminateStartosinstall()
+        
+        mainVC.progressBar.stopAnimation(nil)
+        mainVC.processLabel.stringValue = "Installaiton complete! Reboot!"
+        
+        //self.reboot()
+        //NSApp.terminate(nil)
     }
     
     func trap(action: @convention(c) (Int32) -> ()) {

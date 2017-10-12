@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import IOKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -24,14 +25,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.activate(ignoringOtherApps: true)
-        
         #if !DEBUG
             let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
             backgroundController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "backgroundWindow")) as! BackgroundWindowController
             backgroundController.showWindow(self)
         #endif
     }
-
+    
+    
+    
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }

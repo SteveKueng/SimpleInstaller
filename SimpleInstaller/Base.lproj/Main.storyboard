@@ -744,18 +744,9 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="mac" id="F53-R5-sBg"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uCI-VW-ksC">
-                                <rect key="frame" x="154" y="128" width="451" height="17"/>
+                                <rect key="frame" x="154" y="128" width="492" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="mtV-3X-3we">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xqV-Qw-HjM">
-                                <rect key="frame" x="606" y="128" width="37" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="DhL-vt-9pG">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -768,7 +759,6 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="percentLabel" destination="xqV-Qw-HjM" id="HMg-fA-icA"/>
                         <outlet property="processLabel" destination="uCI-VW-ksC" id="UIX-vl-Inz"/>
                         <outlet property="progressBar" destination="g4f-VN-QTa" id="yST-3a-yhC"/>
                         <outlet property="progressCirc" destination="IXu-8h-3Ir" id="f6F-e4-aiO"/>
@@ -776,7 +766,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="718" y="982"/>
+            <point key="canvasLocation" x="717.5" y="982"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="J0z-IE-CFE">
