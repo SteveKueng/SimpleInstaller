@@ -1,11 +1,19 @@
 # SimpleInstaller
 
-SimpleInstaller is an application designed to be run from a NetInstall environment created with AutoNBI. 
+SimpleInstaller is an application designed to be run from a NetInstall environment created with AutoNBI.  
+  
+
 
 
 # Create nbi
+```code
+make nbi URL="https://munki.example.com/install/config.plist"
+```
 
-make nbi URL="http://munki.example.com/install/config.plist"
+## basic auth
+```code
+make nbi URL="https://munki.example.com/install/config.plist" ADDITIONALHEADERVALUE="Basic QWxhZGRpbjpPcGVuU2VzYW1l"
+```
 
 # config.plist
 
@@ -36,7 +44,7 @@ make nbi URL="http://munki.example.com/install/config.plist"
           <key>type</key>
           <string>installer</string>
           <key>url</key>
-          <string>http://172.16.39.1:8080/pkgs/OS/Apple/HighSierra/Install macOS High Sierra Beta-10.13.dmg</string>
+          <string>https://munki.example.com/pkgs/OS/Install macOS High Sierra Beta-10.13.dmg</string>
         </dict>
       </array>
     </dict>
