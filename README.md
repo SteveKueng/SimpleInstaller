@@ -2,8 +2,7 @@
 
 SimpleInstaller is an application designed to be run from a NetInstall environment created with AutoNBI.  
   
-
-
+![](assets/screenshot.png)
 
 # Create nbi
 ```code
